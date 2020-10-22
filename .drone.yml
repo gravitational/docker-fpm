@@ -1,0 +1,93 @@
+---
+kind: pipeline
+type: kubernetes
+name: build-fpm-centos-8
+
+trigger:
+  branch:
+    - master
+  event:
+    include:
+      - push
+
+steps:
+  - name: fpm-centos 8
+    image: docker
+    environment:
+      REPO: quay.io
+    settings:
+      username:
+        from_secret: QUAYIO_DOCKER_USERNAME
+      password:
+        from_secret: QUAYIO_DOCKER_PASSWORD
+    volumes:
+      - name: dockersock
+        path: /var/run
+    commands:
+    # wait for docker to start
+    - sleep 2
+    - docker pull $REPO/gravitational/fpm-centos:8 || true
+    - cd centos/8 && docker build -t $REPO/gravitational/fpm-centos:8 .
+    - docker login -u="$PLUGIN_USERNAME" -p="$PLUGIN_PASSWORD" $REPO
+    - docker push $REPO/gravitational/fpm-centos:8
+
+services:
+  - name: Start Docker
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
+
+---
+kind: pipeline
+type: kubernetes
+name: build-fpm-debian-8
+
+trigger:
+  branch:
+    - master
+  event:
+    include:
+      - push
+
+steps:
+  - name: fpm-debian 8
+    image: docker
+    environment:
+      REPO: quay.io
+    settings:
+      username:
+        from_secret: QUAYIO_DOCKER_USERNAME
+      password:
+        from_secret: QUAYIO_DOCKER_PASSWORD
+    volumes:
+      - name: dockersock
+        path: /var/run
+    commands:
+    # wait for docker to start
+    - sleep 2
+    - docker pull $REPO/gravitational/fpm-debian:8 || true
+    - cd debian/8 && docker build -t $REPO/gravitational/fpm-debian:8 .
+    - docker login -u="$PLUGIN_USERNAME" -p="$PLUGIN_PASSWORD" $REPO
+    - docker push $REPO/gravitational/fpm-debian:8
+
+services:
+  - name: Start Docker
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
+
+---
+kind: signature
+hmac: 3a0b8a3bc7e63d5966149ae2815cd21d12cd0091cc6a22aa7bacca5cb605faa9
+
+...
