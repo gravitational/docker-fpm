@@ -88,6 +88,6 @@ volumes:
 
 ---
 kind: signature
-hmac: 3a0b8a3bc7e63d5966149ae2815cd21d12cd0091cc6a22aa7bacca5cb605faa9
+hmac: b27cd1722b7a3dc282e73ae61d807abb78f745603ffed522ea11d31ebc713bce
 
 ...
