@@ -25,7 +25,7 @@ steps:
         path: /var/run
     commands:
     # wait for docker to start
-    - sleep 2
+    - timeout 15s /bin/sh -c 'while [ ! -S /var/run/docker.sock ]; do sleep 1; done'
     - docker pull $REPO/gravitational/fpm-centos:8 || true
     - cd centos/8 && docker build -t $REPO/gravitational/fpm-centos:8 .
     - docker login -u="$PLUGIN_USERNAME" -p="$PLUGIN_PASSWORD" $REPO
@@ -70,7 +70,7 @@ steps:
         path: /var/run
     commands:
     # wait for docker to start
-    - sleep 2
+    - timeout 15s /bin/sh -c 'while [ ! -S /var/run/docker.sock ]; do sleep 1; done'
     - docker pull $REPO/gravitational/fpm-debian:8 || true
     - cd debian/8 && docker build -t $REPO/gravitational/fpm-debian:8 .
     - docker login -u="$PLUGIN_USERNAME" -p="$PLUGIN_PASSWORD" $REPO
@@ -90,6 +90,6 @@ volumes:
 
 ---
 kind: signature
-hmac: e5d49696f04445ca8884e18f0a18d2832bf5e9c725a99004f337d20c8d57b7e9
+hmac: a290f829b8bc8d6c5816625d5eba87aacffe22e6f9513864beb2515317a478f4
 
 ...
