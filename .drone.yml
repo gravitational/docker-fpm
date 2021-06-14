@@ -34,6 +34,7 @@ steps:
 services:
   - name: Start Docker
     image: docker:dind
+    privileged: true
     volumes:
       - name: dockersock
         path: /var/run
@@ -78,6 +79,7 @@ steps:
 services:
   - name: Start Docker
     image: docker:dind
+    privileged: true
     volumes:
       - name: dockersock
         path: /var/run
@@ -88,6 +90,6 @@ volumes:
 
 ---
 kind: signature
-hmac: b27cd1722b7a3dc282e73ae61d807abb78f745603ffed522ea11d31ebc713bce
+hmac: e5d49696f04445ca8884e18f0a18d2832bf5e9c725a99004f337d20c8d57b7e9
 
 ...
