@@ -49,7 +49,7 @@ jobs:
           role-session-name: "gha-fpm-build=${{ github.run_number }}"
           role-duration-seconds: 900
       - name: Log into ECR
-        uses: docker/login-action@v3
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
         with:
           registry: public.ecr.aws
         env:
@@ -59,7 +59,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Build FPM Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           push: true
           context: ${{ matrix.directory }}
